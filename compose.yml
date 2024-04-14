@@ -1,0 +1,43 @@
+#      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:29092
+services:
+  kafka1:
+    image: bitnami/kafka:3.6
+    volumes:
+      - ./.kafkadata/node-1:/bitnami/kafka
+    ports:
+      - '9092:9092'
+    environment:
+      - KAFKA_KRAFT_CLUSTER_ID=018edbd523cb7b69bd3c25
+      - KAFKA_CFG_NODE_ID=1
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka1:29092,2@kafka2:29092,3@kafka3:29092
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:29092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+#      - KAFKA_CREATE_TOPICS=gps-data:3:2
+
+  kafka2:
+    image: bitnami/kafka:3.6
+    volumes:
+      - ./.kafkadata/node-2:/bitnami/kafka
+    environment:
+      - KAFKA_KRAFT_CLUSTER_ID=018edbd523cb7b69bd3c25
+      - KAFKA_CFG_NODE_ID=2
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka1:29092,2@kafka2:29092,3@kafka3:29092
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:29092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+
+  kafka3:
+    image: bitnami/kafka:3.6
+    volumes:
+      - ./.kafkadata/node-3:/bitnami/kafka
+    environment:
+      - KAFKA_KRAFT_CLUSTER_ID=018edbd523cb7b69bd3c25
+      - KAFKA_CFG_NODE_ID=3
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka1:29092,2@kafka2:29092,3@kafka3:29092
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:29092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
