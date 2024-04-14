@@ -1,4 +1,3 @@
-#      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:29092
 services:
   kafka1:
     image: bitnami/kafka:3.6
@@ -14,7 +13,6 @@ services:
       - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka1:29092,2@kafka2:29092,3@kafka3:29092
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:29092
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
-#      - KAFKA_CREATE_TOPICS=gps-data:3:2
 
   kafka2:
     image: bitnami/kafka:3.6
