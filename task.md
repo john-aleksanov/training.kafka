@@ -23,7 +23,7 @@ Messages from every vehicle must be processed sequentially!
 
 # Adding Kafka transactions
 
-Wrap the poll(input) > calculate distance > publish(output) loop into Kafka transactions:
+Wrap the poll (input) > calculate distance > publish (output) loop into Kafka transactions:
 ![Kafka transactions](./kafka-transactions.png)
 
 
