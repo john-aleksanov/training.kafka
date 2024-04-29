@@ -37,6 +37,7 @@ public class DistanceCalculator {
         consumerProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         consumerProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, GeoDataDeserializer.class);
         consumerProps.put(ConsumerConfig.GROUP_ID_CONFIG, "distance-calculator");
+        consumerProps.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
         consumer = new KafkaConsumer<>(consumerProps);
         consumer.subscribe(Collections.singletonList(INPUT_TOPIC));
 
@@ -56,18 +57,32 @@ public class DistanceCalculator {
 
     public void run() {
         while (true) {
-            var geoData = consumer.poll(Duration.ofSeconds(1));
-            geoData.forEach(this::processRecord);
+            var records = consumer.poll(Duration.ofSeconds(1));
+            records.forEach(this::processRecord);
+            consumer.commitSync();
         }
     }
 
     private void processRecord(ConsumerRecord<String, GeoData> record) {
         var vehicleId = record.key();
         var geoDatum = record.value();
-        latestTruckData.compute(vehicleId, (k, oldValue) -> oldValue == null
-            ? new LatestTruckData(vehicleId, geoDatum.coordinate(), 0d)
-            : oldValue.update(geoDatum));
+
+        var existingTruckData = latestTruckData.get(vehicleId);
+        if (existingTruckData == null) {
+            latestTruckData.put(vehicleId, new LatestTruckData(geoDatum.timestamp(), vehicleId, geoDatum.coordinate(), 0d));
+            producer.send(new ProducerRecord<>(OUTPUT_TOPIC, vehicleId, 0d));
+            logger.info("Received first GPS coordinates for truck {}", vehicleId);
+            return;
+        }
+
+        var existingTimestamp = existingTruckData.timestamp();
+        if (!geoDatum.timestamp().isAfter(existingTimestamp)) {
+            logger.info("Got a message that we've already processed, skipping");
+            return;
+        }
+
         var distance = latestTruckData.get(vehicleId).distanceTraveled();
+        latestTruckData.put(vehicleId, existingTruckData.update(geoDatum));
         producer.send(new ProducerRecord<>(OUTPUT_TOPIC, vehicleId, distance));
         logger.info("Sent truck distance {} for truck {}", distance, vehicleId);
     }
