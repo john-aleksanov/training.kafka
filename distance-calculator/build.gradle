@@ -1,12 +1,5 @@
 plugins {
     id 'application'
-    id 'io.spring.dependency-management' version '1.1.4'
-}
-
-dependencyManagement {
-    imports {
-        mavenBom 'org.springframework.boot:spring-boot-dependencies:3.2.4'
-    }
 }
 
 repositories {
@@ -18,6 +11,11 @@ ext {
 }
 
 dependencies {
-    implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.apache.kafka:kafka-clients:$kafkaClientVersion"
+    implementation "org.slf4j:slf4j-api:2.0.12"
+    implementation "org.apache.logging.log4j:log4j-api:2.21.1"
+    implementation "org.apache.logging.log4j:log4j-core:2.21.1"
+    implementation "org.apache.logging.log4j:log4j-slf4j2-impl:2.21.1"
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.15.4"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.4"
 }

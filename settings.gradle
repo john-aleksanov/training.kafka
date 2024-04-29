@@ -1,1 +1,1 @@
-include 'fleet-consumer', 'logger'
+include 'fleet-consumer', 'distance-logger', 'distance-calculator'

@@ -1,9 +1,9 @@
-package dev.marvel.kafka.fleetconsumer;
+package dev.marvel.kafka.distancecalculator;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public record GeoData (LocalDateTime timestamp, String vehicleId, Coordinate coordinate){
+public record GeoData(LocalDateTime timestamp, String vehicleId, Coordinate coordinate) {
     public GeoData {
         Objects.requireNonNull(timestamp, "GeoData timestamp cannot be null");
         Objects.requireNonNull(vehicleId, "GeoData vehicle ID cannot be null");
