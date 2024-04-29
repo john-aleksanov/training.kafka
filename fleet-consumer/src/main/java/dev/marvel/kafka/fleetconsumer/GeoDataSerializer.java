@@ -2,6 +2,7 @@ package dev.marvel.kafka.fleetconsumer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.kafka.common.header.Headers;
 import org.apache.kafka.common.serialization.Serializer;
 
@@ -15,6 +16,7 @@ public class GeoDataSerializer implements Serializer<GeoData> {
     public void configure(Map<String, ?> configs, boolean isKey) {
         Serializer.super.configure(configs, isKey);
         mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
     }
 
     @Override
