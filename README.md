@@ -135,8 +135,13 @@ been made and certain things hardcoded. In a production setting, the following i
 3. Architecture: Domain-Driven Design / ports - adapters architecture would be used for better decoupling.
 4. Error Handling: Robust error handling mechanisms would be in place.
 5. API first: An OpenAPI description of the services' APIs would be provided.
-6. Common parts of Gradle build descriptors would be extracted to a parent `build.gradle` file.
-7. Cloud-native approach to deployment would be implemented and Kubernetes / Helm would be used to run the application.
-8. Depending on the ecosystem and company's platform, we might refrain from using Spring / Spring Boot in favor of other approaches, e.g.
-   code using the Servlet API directly.
-Etc., etc.
+6. Gradle project structure: Common parts of Gradle build descriptors would be extracted to a parent `build.gradle` file.
+7. Deployment: Cloud-native approach to deployment would be implemented and Kubernetes / Helm would be used to run the application.
+8. Framework: Depending on the ecosystem and company's platform, we might refrain from using Spring / Spring Boot in favor of other
+   approaches, e.g. code using the Servlet API directly.
+9. Security: production-grade security would have been implemented at all levels including:
+- secured Kafka cluster (TLS for encryption in transit, SASL for client authentication, ACL / RBAC for authorization if required, data
+  encryption at rest);
+- secured API (API keys or JWT);
+- network-level security (routing tables, VPCs, firewalls);
+- etc., etc.
