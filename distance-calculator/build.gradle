@@ -1,0 +1,23 @@
+plugins {
+    id 'application'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.boot:spring-boot-dependencies:3.2.4'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    kafkaClientVersion = '3.7.0'
+}
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.apache.kafka:kafka-clients:$kafkaClientVersion"
+}
