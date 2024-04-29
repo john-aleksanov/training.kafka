@@ -139,7 +139,8 @@ been made and certain things hardcoded. In a production setting, the following i
 7. Deployment: Cloud-native approach to deployment would be implemented and Kubernetes / Helm would be used to run the application.
 8. Framework: Depending on the ecosystem and company's platform, we might refrain from using Spring / Spring Boot in favor of other
    approaches, e.g. code using the Servlet API directly.
-9. Security: production-grade security would have been implemented at all levels including:
+9. Persistence: Latest vehicle data would need to be persisted to survive service restarts and ensure correct distributed processing. 
+10. Security: Production-grade security would have been implemented at all levels including:
 - secured Kafka cluster (TLS for encryption in transit, SASL for client authentication, ACL / RBAC for authorization if required, data
   encryption at rest);
 - secured API (API keys or JWT);
