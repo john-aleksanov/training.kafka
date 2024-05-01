@@ -1,4 +1,4 @@
-### Kafka Showcase Project
+## Kafka Showcase Project
 
 This project sets up a Kafka cluster using Docker and Docker Compose, alongside a multi-module Gradle project designed to interact with the
 Kafka environment for handling and processing geo data. See [task.md](./task.md) for a description of the task.
